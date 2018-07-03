@@ -6,6 +6,9 @@ module.exports = (imagePath, x, y) =>
       .crop(x, y)
       .identify('%[hex:s]', (error, imageMagickColor) => {
         if (error) return reject(error);
+        if (imageMagickColor && imageMagickColor.length === 8) {
+          imageMagickColor = imageMagickColor.substr(0, 6);
+        }
         return resolve(`#${imageMagickColor}`);
       })
   );
