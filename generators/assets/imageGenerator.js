@@ -95,13 +95,13 @@ const getResizedImageGraphic = (sourcePath, width, height) => {
 
 const checkImageIsSquare = sourcePath =>
   gm(path.normalize(sourcePath))
-    .sizeAsync()
-    .then(size => {
-      if (size.width !== size.height) {
-        console.log('Please use a square image'.red);
-        process.exit(1);
-      }
-    });
+  .sizeAsync()
+  .then(size => {
+    if (size.width !== size.height) {
+      console.log('Please use a square image'.red);
+      process.exit(1);
+    }
+  });
 
 const generateResizedAssets = (
   sourcePath,
@@ -122,8 +122,8 @@ const generateResizedAssets = (
 
   return checkImageIsSquare(psdSafeSourcePath).then(() =>
     getResizedImageGraphic(psdSafeSourcePath, width, height)
-      .writeAsync(path.normalize(destinationPath))
-      .then(() => console.log(`Wrote ${destinationPath}`))
+    .writeAsync(path.normalize(destinationPath))
+    .then(() => console.log(`Wrote ${destinationPath}`))
   );
 };
 
@@ -143,10 +143,10 @@ const generateIosIcons = (iconSource, iosIconFolder) =>
   );
 
 const generateAndroidIcons = (
-  iconSource,
-  assetsOutputPath,
-  androidSrcDirectory
-) =>
+    iconSource,
+    assetsOutputPath,
+    androidSrcDirectory
+  ) =>
   Promise.all(
     androidIconSizes.map(size =>
       generateResizedAssets(
@@ -172,26 +172,27 @@ const generateIosSplashScreen = (splashSource, iosSplashFolder) =>
   );
 
 const generateAndroidSplashScreen = (
-  splashSource,
-  assetsOutputPath,
-  androidSrcDirectory
-) =>
+    splashSource,
+    assetsOutputPath,
+    androidSrcDirectory,
+    androidOutputFileName
+  ) =>
   androidSplashSizes.map(size =>
     generateResizedAssets(
       splashSource,
       `${assetsOutputPath}/android/app/src/${androidSrcDirectory}/res/drawable-${
         size.density
-      }/launch_screen.png`,
+      }/${androidOutputFileName}`,
       size.width,
       size.height
     )
   );
 
 const generateAndroidNotificationIcons = (
-  iconSource,
-  assetsOutputPath,
-  androidSrcDirectory
-) =>
+    iconSource,
+    assetsOutputPath,
+    androidSrcDirectory
+  ) =>
   androidNotificationIconSizes.map(size =>
     generateResizedAssets(
       iconSource,

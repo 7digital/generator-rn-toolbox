@@ -193,38 +193,39 @@ class ResourcesGenerator extends Base {
   }
 
   _setupAndroidSplashScreen() {
-    if (!this.android || !this.options.splash) return null;
+    if (!this.android || !this.options.splash || !this.options.androidOutputFileName) return null;
 
-    const getTopLeftPixelColor = getPixelColor(this.options.splash, 1, 1);
+    // const getTopLeftPixelColor = getPixelColor(this.options.splash, 1, 1);
 
-    return getTopLeftPixelColor.then(splashBackgroundColor => {
-      this.fs.copyTpl(
-        this.templatePath('android/colors.xml'),
-        `${this.options.assetsOutputPath}/android/app/src/${
-          this.options.androidSrcDirectory
-        }/res/values/colors.xml`,
-        { splashBackgroundColor }
-      );
-      this.fs.copyTpl(
-        this.templatePath('android/launch_screen_bitmap.xml'),
-        `${this.options.assetsOutputPath}/android/app/src/${
-          this.options.androidSrcDirectory
-        }/res/drawable/launch_screen_bitmap.xml`
-      );
+    // return getTopLeftPixelColor.then(splashBackgroundColor => {
+    //   this.fs.copyTpl(
+    //     this.templatePath('android/colors.xml'),
+    //     `${this.options.assetsOutputPath}/android/app/src/${
+    //       this.options.androidSrcDirectory
+    //     }/res/values/colors.xml`,
+    //     { splashBackgroundColor }
+    //   );
+    //   this.fs.copyTpl(
+    //     this.templatePath('android/launch_screen_bitmap.xml'),
+    //     `${this.options.assetsOutputPath}/android/app/src/${
+    //       this.options.androidSrcDirectory
+    //     }/res/drawable/launch_screen_bitmap.xml`
+    //   );
 
-      this.fs.copyTpl(
-        this.templatePath('android/styles.xml'),
-        `${this.options.assetsOutputPath}/android/app/src/${
-          this.options.androidSrcDirectory
-        }/res/values/styles.xml`
-      );
+    //   this.fs.copyTpl(
+    //     this.templatePath('android/styles.xml'),
+    //     `${this.options.assetsOutputPath}/android/app/src/${
+    //       this.options.androidSrcDirectory
+    //     }/res/values/styles.xml`
+    //   );
 
       return imageGenerator.generateAndroidSplashScreen(
         this.options.splash,
         this.options.assetsOutputPath,
-        this.options.androidSrcDirectory
+        this.options.androidSrcDirectory,
+        this.options.androidOutputFileName,
       );
-    });
+    // });
   }
 
   _setupStoresAssets() {
